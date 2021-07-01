@@ -11,7 +11,7 @@ Arena Challenge是一个由Matlab代码编写的仿真环境。主要要求挑�
 ## 1. 小车动力学模型
 小车的动力学模型，如下公式所示
 <div align="left">
-<img src=https://gitee.com/syncro/ic-challenge/raw/master/Arena/pics/unicycle.png width=30%/>
+<img src=https://gitee.com/syncro/ic-challenge/raw/master/Arena/pics/unicycle.png width=10%/>
 </div>
 
 
@@ -20,7 +20,7 @@ Arena Challenge是一个由Matlab代码编写的仿真环境。主要要求挑�
 另外仿真环境对小车设置了“饱和”机制（如下图所示），即挑战者传递给仿真器的小车两个控制量，将会被限制在一定范围内。
 
 <div align="left">
-<img src=https://gitee.com/syncro/ic-challenge/raw/master/Arena/pics/saturation.png width=50%/>
+<img src=https://gitee.com/syncro/ic-challenge/raw/master/Arena/pics/saturation.png width=30%/>
 </div>
 
 
