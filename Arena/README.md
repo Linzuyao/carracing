@@ -5,18 +5,18 @@ Arena Challenge是一个由Matlab代码编写的仿真环境。主要要求挑�
 
 挑战者提交其设计的控制策略，我们将测试控制策略在随机地图和不同配置下的得分情况，得到策略的最终得分。
 
-![](https://gitee.com/syncro/ic-challenge/blob/master/Arena/pics/arena_preview.png)
+![Arena仿真环境](https://gitee.com/syncro/ic-challenge/blob/master/Arena/pics/arena_preview.png)
 
 ## 1. 小车动力学模型
 小车的动力学模型，如下公式所示
 
-![](https://gitee.com/syncro/ic-challenge/blob/master/Arena/pics/unicycle.png)
+![小车动力学模型的数学表达式](Arena/pics/unicycle.png)
 
 其中，[x,y,$\theta$]分别是小车当前的空间位置和朝向。[u,v]是小车的控制量，u相当于小车的“油门”踏板，控制小车的前车速度；v是小车的“方向盘”，控制小车的转动速度。这是挑战者在编写代码时，唯一可以控制小车的两个物理量。
 
 另外仿真环境对小车设置了“饱和”机制（如下图所示），即挑战者传递给仿真器的小车两个控制量，将会被限制在一定范围内。
 
-![](https://gitee.com/syncro/ic-challenge/blob/master/Arena/pics/saturation.png)
+![饱和函数的一般形式](https://gitee.com/syncro/ic-challenge/blob/master/Arena/pics/saturation.png)
 
 
 ## 2. 雷达探测器
