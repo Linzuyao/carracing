@@ -48,6 +48,7 @@ map         	%全局地图
 挑战者需要设计并提交一个Policy类文件，主要完成action函数。action函数传入参数为observation，传出action。仿真器会在特点的时间间隔调用action，依据挑战者设计的策略得到action，即控制量[u,v]，从而控制小车。
 ```
 classdef Policy < handle        function action=action(self,observation)            if observation.collide                action=[-10,rand(1)-0.5];            else                action=[10,rand(1)-0.5];            end        end
+end
 ```
 
 ## 6. Main函数
