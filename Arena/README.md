@@ -1,22 +1,20 @@
-# Arena比赛挑战
-
-## Arena Challenge简介
+# Arena Challenge简介
 Arena Challenge是一个由Matlab代码编写的仿真环境。主要要求挑战者编写Matlab代码控制小车在一个地图环境中从起点运行至终点，地图中随机放置着障碍物(见下图）。小车是一个unicycle的动力系统（见下文解释），并装有“雷达”探测器，可探测前方障碍物情况。最终的成绩由小车到达终点的时间以及小车是否撞上障碍物等情况综合评估而得。
 
 挑战者提交其设计的控制策略，我们将测试控制策略在随机地图和不同配置下的得分情况，得到策略的最终得分。
 
-![Arena仿真环境](https://gitee.com/syncro/ic-challenge/blob/master/Arena/pics/arena_preview.png)
+![Arena仿真环境](https://gitee.com/syncro/ic-challenge/raw/master/Arena/pics/arena_preview.png)
 
 ## 1. 小车动力学模型
 小车的动力学模型，如下公式所示
 
-![小车动力学模型的数学表达式](Arena/pics/unicycle.png)
+![小车动力学模型的数学表达式](https://gitee.com/syncro/ic-challenge/raw/master/Arena/pics/unicycle.png)
 
 其中，[x,y,$\theta$]分别是小车当前的空间位置和朝向。[u,v]是小车的控制量，u相当于小车的“油门”踏板，控制小车的前车速度；v是小车的“方向盘”，控制小车的转动速度。这是挑战者在编写代码时，唯一可以控制小车的两个物理量。
 
 另外仿真环境对小车设置了“饱和”机制（如下图所示），即挑战者传递给仿真器的小车两个控制量，将会被限制在一定范围内。
 
-![饱和函数的一般形式](https://gitee.com/syncro/ic-challenge/blob/master/Arena/pics/saturation.png)
+![饱和函数的一般形式](https://gitee.com/syncro/ic-challenge/raw/master/Arena/pics/saturation.png)
 
 
 ## 2. 雷达探测器
@@ -54,10 +52,10 @@ env = Env('sys.ini');   %读取系统配置文件policy=Policy();if (env.succe
 为了方便挑战者进行测试，挑战者可以通过仿真配置文件sys.ini，进行相应配置。例如配置小车的起始和终止点，小车控制饱和范围，是否录制游戏运行过程等。具体见该文件。
 
 
-## 代码提交网站
+## 代码提交
 请以队伍的形式登录以下网站注册并提交Policy类代码
 
-http://www.rayliable.net/manage/account/login
+<http://www.rayliable.net/manage/account/login>
 
 ## Leader Board(排名榜)
 
