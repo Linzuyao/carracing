@@ -1,12 +1,13 @@
 # IC_Challenge
 
-#### 介绍
-{**以下是 Gitee 平台说明，您可以替换此简介**
-Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用 Gitee 实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+## 简介
+IC_Challenge是华中科技大学人工智能与自动化学院本科生《智能控制》课程设置的一个课程设计挑战，主要鼓励学生采用课程教授的相关知识，解决相关应用中的问题
 
-#### 软件架构
-软件架构说明
+## Arena比赛挑战
+
+### Arena Challenge简介
+Arena Challenge由Matlab代码编写。主要要求
+
 
 
 #### 安装教程
