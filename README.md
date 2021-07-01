@@ -24,14 +24,16 @@ Arena Challenge是一个由Matlab代码编写的仿真环境。主要要求挑�
 ### 3. Observation（当前环境信息）
 
 仿真环境每隔一段时间，将会把仿真环境的信息以Observation类的形式告知挑战者，它的成员变量包含  
-```agent   %当前小车信息  
+```
+agent   %当前小车信息  
 scanMap %当前雷达探测器探测到的信息  
 t            %当前所用时间  
 collide     %当前是否发生碰撞  
 score      %当前挑战者的分数  
 startPos   %小车起始位置  
 endPos     %小车目标位置  
-map         %全局地图  ```
+map         %全局地图  
+```
 
 
 # 参与贡献
