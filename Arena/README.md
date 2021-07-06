@@ -59,6 +59,9 @@ env = Env('sys.ini');   %读取系统配置文件policy=Policy();if (env.succe
 ## 7. 仿真配置文件sys.ini
 为了方便挑战者进行测试，挑战者可以通过仿真配置文件sys.ini，进行相应配置。例如配置小车的起始和终止点，小车控制饱和范围，是否录制游戏运行过程等。具体见该文件。
 
+## 8. 挑战模式
+在sys.ini中，把globalview设置为1，挑战者就可以在开始时从observation中获取全局地图信息；如把globalview设置为0，挑战者就只在每次系统刷新时从observation中获取传感器获得的局部地图信息；
+
 
 # 代码提交
 请以队伍的形式登录以下网站注册并提交Policy类代码
