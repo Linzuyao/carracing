@@ -341,8 +341,8 @@ classdef Env < handle
             len=size(agentCoords,2);
             collide=0;
             for i=1:len
-                    agentCoords(2,i)
-                    agentID
+                  %  agentCoords(2,i)
+                 %   agentID
                 if obmap(agentCoords(2,i),agentCoords(1,i))==1
                     self.collisionMap(agentCoords(2,i),agentCoords(1,i))=agentID;
                     collide=1;
