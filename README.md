@@ -10,7 +10,7 @@ Arena Challenge是一个由Matlab代码编写的仿真环境。主要要求挑�
 
 挑战者提交其设计的控制策略，我们将测试控制策略在随机地图和不同配置下的得分情况，得到策略的最终得分。
 
-项目详细信息见 <https://gitee.com/syncro/ic-challenge/tree/master/Arena>
+项目详细信息见 <https://gitee.com/coralab/ic-challenge/tree/master/Arena>
 
 
 # 参与贡献
