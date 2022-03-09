@@ -18,7 +18,7 @@ classdef Viewer < handle
         function self = Viewer(w,h)
             self.h=h;
             self.w=w;
-            self.fh=figure('Name','Cart Pole Simulator','NumberTitle','off');
+            self.fh=figure('Name','Water Tank Simulator','NumberTitle','off');
             %fh.Color=[0.4 0.6 0.7];
             self.fh.MenuBar='none';
             

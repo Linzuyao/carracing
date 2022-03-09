@@ -17,7 +17,6 @@ classdef Env < handle
         startPos
         mapInfo
         render_st
-        mainAgent
         id
         viewer  % render
         st % step time
@@ -46,7 +45,7 @@ classdef Env < handle
             self.watertank.setSatLevel(self.agentInfo.usat);
             viewer=Viewer(self.w,self.h);
             self.targetHeight=rand()*30;
-            self.watertank.setTargetHeight(self.targetHeight);
+            self.watertank.setParameter(self.agentInfo.sp,self.agentInfo.ip,self.agentInfo.op,self.agentInfo.noise_level);
             self.addViewer(viewer);
             self.startRecord();
             self.reset();
@@ -146,11 +145,7 @@ classdef Env < handle
             self.viewer=v;
         end
         
-        function coords=clipCoord(self,coords)
-            coords(coords<1)=1;
-            coords(1,coords(1,:)>self.w)=self.w;
-            coords(2,coords(2,:)>self.h)=self.h;
-        end
+  
         
         function startRecord(self)
             if(self.sysInfo.record)

@@ -11,8 +11,9 @@ classdef WaterTank < handle
         
         tank_w    % tank width
         tank_h    % tank height
-        a            % input rate
-        b            % output rate
+        ip            % input rate
+        op           % output rate
+        nl %noise level
         x
         y
         waterHandle;
@@ -22,15 +23,16 @@ classdef WaterTank < handle
     
     methods
         
-        function setTargetHeight(self,h)
-            self.targetHeight=h;
+        function setParameter(self,th,ip,op,noise_level)
+            self.targetHeight=th;
+            self.ip=ip;
+            self.op=op;
+            self.nl=noise_level;
         end
         function self = WaterTank(startPos,h)
             self.H=h;
             self.setAgent(startPos);
             self.size(10,30);
-            self.b=3;
-            self.a=2;
         end
         
 
@@ -48,24 +50,33 @@ classdef WaterTank < handle
         
         function step(self,tspan,action)
             self.lastState=self.H;
-            sat=utils('sat');
-            self.action=sat(action,self.satLevel);
+            
+            self.action=self.satFunc(action);
             [t, state] = ode45(@(t, state)self.dynamics(t, state), tspan, self.lastState);
             self.H=state(end,1);
             %action is for applied force
         end
         
+        function na=satFunc(self,action)
+            sat=utils('sat');
+            na=sat(action,self.satLevel);
+            if (na<0)
+                na=0;
+            end
+        end
         function setSatLevel(self,level)
             self.satLevel=level;
         end
         
-        % refer to the article https://zhuanlan.zhihu.com/p/54071212
+
         function ds = dynamics(self,t,state)
             xh=state(1);
-            if xh<=0
-                dH=0;
+            if xh<=0 
+                dH=0.5;
+            elseif xh>=self.tank_h
+                dH=-0.01;
             else
-                dH=self.b*self.action-self.a*sqrt(xh);
+                dH=self.ip*self.action-self.op*sqrt(xh)+self.nl*(rand()-0.5)*2;
             end
             
             ds=dH;
