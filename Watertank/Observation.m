@@ -13,7 +13,7 @@ classdef Observation < handle
             self.agent=env.watertank;
             self.t=env.t;
             self.score=env.score.score;
-            self.targetHeight=env.targetHeight;
+            self.targetHeight=self.agent.targetHeight;
         end
 
 

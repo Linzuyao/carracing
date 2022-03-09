@@ -7,7 +7,6 @@ classdef Env < handle
         agentInfo % ini for agent
         sysInfo  % ini for system
         t  % current time
-        targetHeight
     end
     properties   (Access =  {?Observation})
         watertank
@@ -44,7 +43,7 @@ classdef Env < handle
             self.watertank=WaterTank(self.startPos,rand()+5);
             self.watertank.setSatLevel(self.agentInfo.usat);
             viewer=Viewer(self.w,self.h);
-            self.targetHeight=rand()*30;
+            %self.targetHeight=rand()*30;
             self.watertank.setParameter(self.agentInfo.sp,self.agentInfo.ip,self.agentInfo.op,self.agentInfo.noise_level);
             self.addViewer(viewer);
             self.startRecord();
