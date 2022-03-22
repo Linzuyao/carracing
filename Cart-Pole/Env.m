@@ -41,8 +41,9 @@ classdef Env < handle
             self.h = self.mapInfo.h;
             self.render_st=self.sysInfo.render_st;
             self.obv=Observation();
-            self.cartpole=CartPole(self.startPos,pi-0.1,0,0);
+            self.cartpole=CartPole(self.startPos,self.startPos.theta,0,0,self.agentInfo.cart_weight,self.agentInfo.pole_weight);
             self.cartpole.setSatLevel(self.agentInfo.usat);
+            self.cartpole.setModel(self.agentInfo.linear);
             viewer=Viewer(self.w,self.h);
             self.addViewer(viewer);
             self.startRecord();

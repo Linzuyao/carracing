@@ -15,9 +15,11 @@ classdef CartPole < handle
         pole_h      % pole height
         pole_weight % pole weight
         pole_I         % pole Inertia
-        pole_l        % com of pole to the joint 
+        pole_l        % com of pole to the joint
         
         friction   % friction coefficient
+        
+        linear   % determine if use linear model
         
         
         As; % system matrix
@@ -38,10 +40,10 @@ classdef CartPole < handle
     
     methods
         
-        function self = CartPole(startPos,theta,dx,dtheta)
+        function self = CartPole(startPos,theta,dx,dtheta,cart_weight,pole_weight)
             self.setAgent(startPos,theta,dx,dtheta);
             self.size(1,0.7,0.15,1.5);
-            self.weight(0.5,0.2);
+            self.weight(cart_weight,pole_weight);
             self.friction=0.1;
             self.g=9.8;
             self.inertia();
@@ -51,13 +53,13 @@ classdef CartPole < handle
         function systemMatrix(self)
             p=self.pole_I*(self.cart_weight+self.pole_weight)+self.cart_weight*self.pole_weight*self.pole_l^2;
             self.As=[0 1 0 0;
-                   0 -(self.pole_I+self.pole_weight*self.pole_l^2)*self.friction/p  (self.pole_weight^2*self.g*self.pole_l^2)/p 0;
-                   0 0 0 1;
-                   0 -(self.pole_weight*self.pole_l*self.friction)/p self.pole_weight*self.g*self.pole_l*(self.pole_weight+self.cart_weight)/p 0];
+                0 -(self.pole_I+self.pole_weight*self.pole_l^2)*self.friction/p  (self.pole_weight^2*self.g*self.pole_l^2)/p 0;
+                0 0 0 1;
+                0 -(self.pole_weight*self.pole_l*self.friction)/p self.pole_weight*self.g*self.pole_l*(self.pole_weight+self.cart_weight)/p 0];
             self.Bs=[0; (self.pole_I+self.pole_weight*self.pole_l^2)/p;0;self.pole_weight*self.pole_l/p];
             self.Cs= [1 0 0 0;0 0 1 0];
         end
-
+        
         function setAgent(self,startPos,theta,dx,dtheta)
             self.x = startPos.x;
             self.y = startPos.y;
@@ -100,6 +102,9 @@ classdef CartPole < handle
         function setSatLevel(self,level)
             self.satLevel=level;
         end
+        function setModel(self,linear)
+            self.linear=linear;
+        end
         
         function theta=roundTheta(self,t)
             idx=-floor(t/(2*pi));
@@ -111,23 +116,24 @@ classdef CartPole < handle
             dxl=state(2);
             thetal=self.roundTheta(state(3));
             dthetal=state(4);
+       
             
+            %nonlinear model
+            if ~self.linear
+                A=[self.cart_weight+self.pole_weight self.pole_weight*self.pole_l*cos(thetal);
+                    self.pole_weight*self.pole_l*cos(thetal)  self.pole_I+self.pole_weight*self.pole_l^2];
+                
+                B=[self.action+self.pole_weight*self.pole_l*dthetal^2*sin(thetal)-self.friction*dxl;
+                    -self.pole_weight*self.g*self.pole_l*sin(thetal)];
+            else
+                %   %linear model
+                phi=thetal-pi;
+                A=[self.cart_weight+self.pole_weight -self.pole_weight*self.pole_l;
+                    -self.pole_weight*self.pole_l self.pole_I+self.pole_weight*self.pole_l^2];
+                B=[self.action-self.friction*dxl;
+                    self.pole_weight*self.g*self.pole_l*phi];
+            end
             
-            
-            
- %nonlinear model           
-            A=[self.cart_weight+self.pole_weight self.pole_weight*self.pole_l*cos(thetal);
-                self.pole_weight*self.pole_l*cos(thetal)  self.pole_I+self.pole_weight*self.pole_l^2];
-             
-            B=[self.action+self.pole_weight*self.pole_l*dthetal^2*sin(thetal)-self.friction*dxl;
-                -self.pole_weight*self.g*self.pole_l*sin(thetal)];
-%   %linear model       
-%             phi=thetal-pi;    
-%             A=[self.cart_weight+self.pole_weight -self.pole_weight*self.pole_l;
-%                 -self.pole_weight*self.pole_l self.pole_I+self.pole_weight*self.pole_l^2];            
-%             B=[self.action-self.friction*dxl;
-%                 self.pole_weight*self.g*self.pole_l*phi];
-
             dd=inv(A)*B;
             ds=[dxl;dd(1);dthetal;dd(2)];
         end
@@ -144,7 +150,7 @@ classdef CartPole < handle
             if isempty(self.cartHandle)
                 self.cartHandle=fill(handle,cart_corners(1,:),cart_corners(2,:),'g');
             else
-               set(self.cartHandle,'XData',cart_corners(1,:),'YData',cart_corners(2,:));
+                set(self.cartHandle,'XData',cart_corners(1,:),'YData',cart_corners(2,:));
             end
             
             rotMat2=utils('rotMat2');
@@ -156,17 +162,17 @@ classdef CartPole < handle
                 -self.pole_w/2,-self.pole_h;
                 self.pole_w/2,-self.pole_h;];
             
-           
+            
             
             pole_corners=[self.x;self.cart_h+cart_z_org]+rm*pole_corners';
-
+            
             if isempty(self.poleHandle)
                 self.poleHandle=fill(handle,pole_corners(1,:),pole_corners(2,:),'r');
             else
-               set(self.poleHandle,'XData',pole_corners(1,:),'YData',pole_corners(2,:));
+                set(self.poleHandle,'XData',pole_corners(1,:),'YData',pole_corners(2,:));
             end
             
- 
+            
         end
         
         

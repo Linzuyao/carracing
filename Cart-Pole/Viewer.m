@@ -28,7 +28,7 @@ classdef Viewer < handle
             screenh=screenSize(4);
             
             posw=screenw*1.5/4;
-            posh=screenh*1.5/10;
+            posh=screenh*1.5/4;
             
             %poswh=max(posw,posh);
             
@@ -65,7 +65,7 @@ classdef Viewer < handle
             self.ax.YLimMode='manual';
             self.ax.XLim=[0 self.w];
             self.ax.YLim=[0 self.h];    
-            self.ax.DataAspectRatio=[1 1 1];       
+            self.ax.DataAspectRatio=[1.2 1 1];       
             hold on;
         end
         

@@ -10,6 +10,7 @@ classdef Policy < handle
         
         function action=action(self,observation)
             sys=observation.agent;
+            
             u=5;
         	action=[u];
         end

@@ -10,6 +10,7 @@ classdef Policy < handle
         
         function action=action(self,observation)
             sys=observation.agent;
+            % LQR policy
             Q = sys.Cs'*sys.Cs;
             Q(1,1) = 1;
             Q(3,3) = 100;
