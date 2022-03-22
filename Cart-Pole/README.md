@@ -1,8 +1,7 @@
 # Cart-Pole Challenge简介
-Cart-pole Challenge是一个由Matlab代码编写的仿真环境。主要要求挑战者编写Matlab代码控制倒立摆至竖直向上的位置。控制量为作用在小车上的力，具体模型说明参考[链接](https://zhuanlan.zhihu.com/p/54071212)
-仿真器界面见下图
+Cart-pole Challenge是一个由Matlab代码编写的仿真环境。主要要求挑战者编写Matlab代码控制倒立摆至竖直向上的位置。控制量为作用在小车上的力，具体模型说明参考[链接](https://zhuanlan.zhihu.com/p/54071212),仿真器界面见下图
 <div align="left">
-<img src=https://gitee.com/coralab/ic-challenge/raw/master/Cart-Pole/pics/cart-pole.png width=50%/>
+<img src=https://gitee.com/coralab/ic-challenge/raw/master/Cart-Pole/pics/cart-pole.png width=100%/>
 </div>
 
 
@@ -10,7 +9,7 @@ Cart-pole Challenge是一个由Matlab代码编写的仿真环境。主要要求�
 ## 1. 倒立摆模型
 倒立摆动力学模型具体描述见[链接](https://zhuanlan.zhihu.com/p/54071212)，或如下图所示
 <div align="left">
-<img src=https://gitee.com/coralab/ic-challenge/raw/master/Cart-Pole/pics/cart-pole-model.png width=50%/>
+<img src=https://gitee.com/coralab/ic-challenge/raw/master/Cart-Pole/pics/cart-pole-model.jpeg width=50%/>
 </div>
 注：文中分析和仿真中的模型角度$\theta$都是定义为杆子与竖直向下方向的夹角
 
