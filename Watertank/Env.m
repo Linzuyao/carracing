@@ -6,10 +6,12 @@ classdef Env < handle
     properties (Access =  {?Score,?Observation})
         agentInfo % ini for agent
         sysInfo  % ini for system
-        t  % current time
+        watertank
+        t  % current times
+       sp % setpoint
     end
     properties   (Access =  {?Observation})
-        watertank
+        
         score    % current score
     end
     properties (Access = private)
@@ -43,7 +45,7 @@ classdef Env < handle
             self.watertank=WaterTank(self.startPos,rand()+5);
             self.watertank.setSatLevel(self.agentInfo.usat);
             viewer=Viewer(self.w,self.h);
-            %self.targetHeight=rand()*30;
+            self.sp=self.agentInfo.sp;
             self.watertank.setParameter(self.agentInfo.sp,self.agentInfo.ip,self.agentInfo.op,self.agentInfo.noise_level);
             self.addViewer(viewer);
             self.startRecord();
@@ -56,7 +58,7 @@ classdef Env < handle
             self.t=0;
             self.st=self.sysInfo.st;
             self.score=Score(self);
-            self.obv.setObservation(self,self.sysInfo.globalview);
+            self.obv.setObservation(self);
             observation=self.obv;
             self.info='';
         end
@@ -65,7 +67,7 @@ classdef Env < handle
             tspan=[self.t self.t+self.st];
             self.watertank.step(tspan,action);
             
-            self.obv.setObservation(self,self.sysInfo.globalview);
+            self.obv.setObservation(self);
             
             self.t=self.t+self.st;
             observation=self.obv;
@@ -78,6 +80,16 @@ classdef Env < handle
             info=self.info;
             if done
                 self.done();
+            end
+            
+            self.changeTarget();
+        end
+        
+        
+        function changeTarget(self)
+            if (self.t>7.5)
+                self.sp=10;
+                self.watertank.setParameter(self.sp,self.agentInfo.ip,self.agentInfo.op,self.agentInfo.noise_level);
             end
         end
         

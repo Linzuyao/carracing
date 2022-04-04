@@ -9,7 +9,7 @@ classdef Observation < handle
     
     methods
     
-        function setObservation(self,env,globalview)
+        function setObservation(self,env)
             self.agent=env.watertank;
             self.t=env.t;
             self.score=env.score.score;
