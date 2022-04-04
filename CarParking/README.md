@@ -4,7 +4,7 @@ Car Parking是一个由Matlab代码编写的仿真环境。主要要求挑战者
 挑战者提交其设计的控制策略，我们将测试控制策略在随机地图和不同配置下的得分情况，得到策略的最终得分。
 
 <div align="left">
-<img src=https://gitee.com/coralab/ic-challenge/raw/master/Arena/pics/arena_preview.png width=60%/>
+<img src=https://gitee.com/coralab/ic-challenge/raw/master/CarParking/pics/arena_preview.png width=60%/>
 </div>
 
 

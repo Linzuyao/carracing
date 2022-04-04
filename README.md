@@ -30,6 +30,13 @@ Cart-pole Challenge是一个由Matlab代码编写的仿真环境。主要要求�
 项目详细信息见 <https://gitee.com/coralab/ic-challenge/tree/master/Cart-Pole>
 
 
+### CarParking Challenge简介
+Car Parking Challenge是一个由Matlab代码编写的仿真环境。主要要求挑战者编写Matlab代码控制小车将车停至停车位（见图中红色标志）。
+<div align="left">
+<img src=https://gitee.com/coralab/ic-challenge/raw/master/CarParking/pics/arena_preview.png width=60%/>
+</div>
+项目详细信息见 <https://gitee.com/coralab/ic-challenge/tree/master/CarParking>
+
 
 # 参与贡献
 
