@@ -12,14 +12,14 @@ Arena Challenge是一个由Matlab代码编写的仿真环境。主要要求挑�
 <img src=https://gitee.com/coralab/ic-challenge/raw/master/Arena/pics/arena_preview.png width=60%/>
 </div>
 
-项目详细信息见 <https://gitee.com/coralab/ic-challenge/tree/master/Arena>
+项目详细信息见<https://gitee.com/coralab/ic-challenge/tree/master/Arena>
 
 ### WaterTank Challenge简介
 WaterTank Challenge是一个由Matlab代码编写的仿真环境。主要要求挑战者编写Matlab代码控制水箱液位至目标液位。控制量为水箱进水阀门，控制量为正数.
 <div align="left">
 <img src=https://gitee.com/coralab/ic-challenge/raw/master/Watertank/pics/system.png width=50%/>
 </div>
-项目详细信息见 <https://gitee.com/coralab/ic-challenge/tree/master/Watertank>
+项目详细信息见<https://gitee.com/coralab/ic-challenge/tree/master/Watertank>
 
 
 ### Cart-Pole Challenge简介
@@ -27,7 +27,7 @@ Cart-pole Challenge是一个由Matlab代码编写的仿真环境。主要要求�
 <div align="left">
 <img src=https://gitee.com/coralab/ic-challenge/raw/master/Cart-Pole/pics/cart-pole.png width=100%/>
 </div>
-项目详细信息见 <https://gitee.com/coralab/ic-challenge/tree/master/Cart-Pole>
+项目详细信息见<https://gitee.com/coralab/ic-challenge/tree/master/Cart-Pole>
 
 
 ### CarParking Challenge简介
@@ -35,7 +35,7 @@ Car Parking Challenge是一个由Matlab代码编写的仿真环境。主要要�
 <div align="left">
 <img src=https://gitee.com/coralab/ic-challenge/raw/master/CarParking/pics/arena_preview.png width=60%/>
 </div>
-项目详细信息见 <https://gitee.com/coralab/ic-challenge/tree/master/CarParking>
+项目详细信息见<https://gitee.com/coralab/ic-challenge/tree/master/CarParking>
 
 
 # 参与贡献
