@@ -14,8 +14,6 @@ classdef Score < handle
     
         function self = Score(env)
             self.score=env.sysInfo.score;
-            
-            
             l=sqrt(env.map.w*env.map.w+env.map.h*env.map.h);
             self.rewardTime=ceil(l/env.agentInfo.usat*env.sysInfo.scoreTimes);
             %disp(self.rewardTime);
