@@ -16,7 +16,7 @@ if (env.succeed)
         if(done)
             break;
         end
-        wait(100);
+        wait(10);
     end
 end
 

@@ -9,6 +9,8 @@ classdef Env < handle
         sysInfo  % ini for system
         collide % check if agent collides
         t  % current time
+        smartAgentNumber %number of smart agent
+        collideWithSmartAgent % check if agent collides with smart agent
     end
     properties   (Access =  {?Observation})
         scanMap  % the map that sensor sensed
@@ -19,7 +21,7 @@ classdef Env < handle
     properties (Access = private)
         render_st
         mainAgent
-        pfmap % potential field map for the smart agents to avoid obstacles
+  %      pfmap % potential field map for the smart agents to avoid obstacles
         id
         obj_idx
         objs
@@ -66,7 +68,7 @@ classdef Env < handle
             self.collisionMap=zeros(self.h,self.w);
             self.collisionMapAgent=zeros(self.h,self.w);
             self.collisionMapMainAgent=zeros(self.h,self.w);
-            self.pfmap=PotentialField(self.map.occupyMap());
+     %       self.pfmap=PotentialField(self.map.occupyMap());
             self.obv=Observation();
             agent=Agent(self.startPos.x,self.startPos.y,self.startPos.heading,...
                 self.sensorInfo.scanRange,self.sensorInfo.scanAngle,self.obj_idx+1);
@@ -75,7 +77,8 @@ classdef Env < handle
             %self.objs=Agent.empty(20,0);
             self.mainAgent=agent;
             self.addObject(agent);
-            if(self.sysInfo.smartAgent>0)
+            self.smartAgentNumber=self.sysInfo.smartAgent
+            for i=1:self.smartAgentNumber
                 self.generateSmartAgent();
             end
             self.addViewer(viewer);
@@ -87,10 +90,13 @@ classdef Env < handle
             agent='';
             while 1
                 pos= self.map.generatePos();
-                agent=SmartAgent(pos(1),pos(2),(rand(1)-0.5)*2*pi,[self.agentInfo.usat,self.agentInfo.vsat],self.obj_idx+1);
                 
+                agent=SmartAgent(pos(1),pos(2),(rand(1)-0.5)*2*pi,[self.agentInfo.usat,self.agentInfo.vsat],self.obj_idx+1);
+               % agent=SmartAgent(6,6,(rand(1)-0.5)*2*pi,[self.agentInfo.usat,self.agentInfo.vsat],self.obj_idx+1);
                 agentCoords=agent.updateOccupyMap();
-                collideState=self.collisionWithObstacles(agentCoords,agent.id);
+        %%%change start
+                collideState=self.collisionWithDilatedObstacles(agentCoords,agent.id);
+        %%%change end
                 if ~collideState
                     break;
                 end
@@ -98,14 +104,115 @@ classdef Env < handle
             self.generateTargetPosForAgent(agent)
             self.addObject(agent);
         end
-        
+
+        %%%change start
+        function map=dilate(~,map0)
+            map1=map0;
+            for i=1:size(map0,1)
+                for j=1:size(map0,2)
+                    if(map0(i,j)==1)
+                        flag=1;
+                        min=1;
+                        max=50;
+                        if j-1>=min
+                            map1(i,j-1)=flag;
+                        end
+                        if j+1<=max
+                            map1(i,j+1)=flag;
+                        end
+                        if i-1>=min
+                            map1(i-1,j)=flag;
+                        end
+                        if i-1>=min&&j-1>=min
+                            map1(i-1,j-1)=flag;
+                        end
+                        if i-1>=min&&j+1<=max
+                            map1(i-1,j+1)=flag;
+                        end
+                        if i+1<=max
+                            map1(i+1,j)=flag;
+                        end
+                        if i+1<=max&&j-1>=min
+                            map1(i+1,j-1)=flag;
+                        end
+                        if i+1<=max&&j+1<=max
+                            map1(i+1,j+1)=flag;
+                        end                            
+                    end
+                end
+            end
+            map=map1;
+        end
+        function map=dilate2(~,map0)
+            map1=map0;
+            for i=1:size(map0,1)
+                for j=1:size(map0,2)
+                    if(map0(i,j)==1)
+                        flag=1;
+                        min=1;
+                        max=50;
+                        if j-1>=min
+                            map1(i,j-1)=flag;
+                        end
+                        if j+1<=max
+                            map1(i,j+1)=flag;
+                        end
+                        if i-1>=min
+                            map1(i-1,j)=flag;
+                        end
+                        if i+1<=max
+                            map1(i+1,j)=flag;
+                        end                           
+                    end
+                end
+            end
+            map=map1;
+        end
+        function map=dilate3(~,map0)
+            map1=map0;
+            for i=1:size(map0,1)
+                max=size(map0,1);
+                map1(max,i)=1;
+                map1(1,i)=1;
+                map1(i,max)=1;
+                map1(i,1)=1;
+                map1(max-1,i)=1;
+                map1(2,i)=1;
+                map1(i,max-1)=1;
+                map1(i,2)=1;
+            end
+            map=map1;
+        end
+        function collide=collisionWithDilatedObstacles(self,agentCoords,agentID)
+            %'Collision'
+            agentCoords=self.clipCoord(agentCoords);
+            obmap=self.map.occupyMap();
+            obmap=self.dilate2(obmap);
+            obmap=self.dilate2(obmap);
+            obmap=self.dilate2(obmap);
+            obmap=self.dilate3(obmap);
+            len=size(agentCoords,2);
+            collide=0;
+            for i=1:len
+                  %  agentCoords(2,i)
+                 %   agentID
+                if obmap(agentCoords(2,i),agentCoords(1,i))==1
+                    self.collisionMap(agentCoords(2,i),agentCoords(1,i))=agentID;
+                    collide=1;
+                end
+            end
+        end
+        %%%change end
+
         function generateTargetPosForAgent(self, agent)
             sp=[agent.x agent.y agent.h];
             while 1
                 targetPos= self.map.generatePos();
                 agent.setAgent(targetPos(1),targetPos(2),sp(3));
                 agentCoords=agent.updateOccupyMap();
-                collideState=self.collisionWithObstacles(agentCoords,agent.id);
+        %%%change start
+                collideState=self.collisionWithDilatedObstacles(agentCoords,agent.id);
+        %%%change end
                 if ~collideState
                     break;
                 end
@@ -114,7 +221,7 @@ classdef Env < handle
            % astar=AStar(sp(1:2)',targetPos,self.map);
             agent.setAgent(sp(1),sp(2),sp(3));
             agent.setTarget(targetPos);
-            agent.setPFMap(self.pfmap);
+   %         agent.setPFMap(self.pfmap);
         end
         
         function observation=reset(self)
@@ -128,6 +235,8 @@ classdef Env < handle
             observation=self.obv;
             self.info='';
         end
+
+
         
         function [observation,done,info]=step(self,action)
             tspan=[self.t self.t+self.st];
@@ -136,7 +245,9 @@ classdef Env < handle
                 if i==1
                     self.objs{i}.step(tspan,action);
                 else
-                    self.objs{i}.step(tspan,self.pfmap);
+                    mapForSmartAgent=self.map.occupyMap();
+                    mapForSmartAgent=mapForSmartAgent';
+                    self.objs{i}.step(tspan,mapForSmartAgent);
                 end
                 agentCoords=self.objs{i}.occupyMap();
                 
@@ -145,6 +256,7 @@ classdef Env < handle
                 if collideState
                     self.objs{i}.retreat();
                 end
+                self.objs{i}.setCollision(collideState);
                 if i==1
                     scanCoords=self.objs{i}.scanMap();
                     self.checkScan(scanCoords);
@@ -153,6 +265,8 @@ classdef Env < handle
             self.t=self.t+self.st;
             
             % check collision among agents
+            
+            self.collisionMapAgent=zeros(self.h,self.w);
             self.collisionAmongAgents();
             self.checkCollision();
             self.checkGame();
@@ -184,12 +298,14 @@ classdef Env < handle
             tempMap=(self.collisionMap==1);
             self.collisionMapMainAgent=max(self.collisionMapAgent,tempMap);
             self.collide=sum(sum( self.collisionMapMainAgent));
+            self.collideWithSmartAgent=sum(sum( self.collisionMapAgent));
         end
         function done(self)
             self.stopRecord();
         end
         
         function collide=collisionAmongAgents(self)
+            % tempMap to indicate which agent occupies the grid.
             tempMap=self.collisionMapAgent;
             for i=2:self.obj_idx
                 agentCoords=self.objs{i}.occupyMap();
@@ -204,8 +320,10 @@ classdef Env < handle
             mainAgentCoords=self.clipCoord(mainAgentCoords);
             collide=0;
             for i=1:size(mainAgentCoords,2)
+                % if the grid that is occupied by main agent is also
+                % occupied by other agent, then  
                 if tempMap(mainAgentCoords(2,i),mainAgentCoords(1,i))>0
-                    self.collisionMapAgent(agentCoords(2,i),agentCoords(1,i))=tempMap(mainAgentCoords(2,i),mainAgentCoords(1,i));
+                    self.collisionMapAgent(mainAgentCoords(2,i),mainAgentCoords(1,i))=tempMap(mainAgentCoords(2,i),mainAgentCoords(1,i));
                     collide=collide+1;
                 end
             end

@@ -29,6 +29,9 @@ classdef Score < handle
             if agent.x<0 || agent.x>mapw || agent.y<0 || agent.y>maph
                 self.outofbound=1;
             end
+            if env.collideWithSmartAgent>0
+                    self.score=self.score-env.sysInfo.collidewithAgentDeducts;
+            end
             if env.collide
                 self.collide=1;
             end

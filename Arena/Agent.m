@@ -6,6 +6,7 @@ classdef Agent < handle
         satLevel %satuation Level
         id
         
+        collide % indicate collision
         w % width
         ht %height
         
@@ -14,7 +15,7 @@ classdef Agent < handle
     
     properties (Access = protected)
         occupy_map
-        color
+        bodycolor
         action
         scanBox
         sensor
@@ -38,6 +39,8 @@ classdef Agent < handle
             self.headOffset=[self.w*1.5/4;0];
             self.sensor=RangeFinder(0.3,scanRange,scanAngle,self.headOffset);
             self.sensor.updateScan(self.TF());
+            self.collide=0;
+            self.bodycolor='g';
         end
 
         function setAgent(self,x ,y ,h)
@@ -80,6 +83,9 @@ classdef Agent < handle
             tf= [self.x,self.y,self.h];
         end
         
+        function setCollision(self,collide)
+            self.collide=collide;
+        end
         function setSatLevel(self,level)
             self.satLevel=level;
         end
@@ -107,7 +113,7 @@ classdef Agent < handle
                 self.w/2,-self.ht/2;];
             body_corners=[self.x;self.y]+rm*corners';
             if isempty(self.bHandle)
-                self.bHandle=fill(handle,body_corners(1,:),body_corners(2,:),'g');
+                self.bHandle=fill(handle,body_corners(1,:),body_corners(2,:),self.bodycolor);
             else
                set(self.bHandle,'XData',body_corners(1,:),'YData',body_corners(2,:));
             end
