@@ -77,7 +77,7 @@ classdef Env < handle
             %self.objs=Agent.empty(20,0);
             self.mainAgent=agent;
             self.addObject(agent);
-            self.smartAgentNumber=self.sysInfo.smartAgent
+            self.smartAgentNumber=self.sysInfo.smartAgent;
             for i=1:self.smartAgentNumber
                 self.generateSmartAgent();
             end
@@ -106,91 +106,17 @@ classdef Env < handle
         end
 
         %%%change start
-        function map=dilate(~,map0)
-            map1=map0;
-            for i=1:size(map0,1)
-                for j=1:size(map0,2)
-                    if(map0(i,j)==1)
-                        flag=1;
-                        min=1;
-                        max=50;
-                        if j-1>=min
-                            map1(i,j-1)=flag;
-                        end
-                        if j+1<=max
-                            map1(i,j+1)=flag;
-                        end
-                        if i-1>=min
-                            map1(i-1,j)=flag;
-                        end
-                        if i-1>=min&&j-1>=min
-                            map1(i-1,j-1)=flag;
-                        end
-                        if i-1>=min&&j+1<=max
-                            map1(i-1,j+1)=flag;
-                        end
-                        if i+1<=max
-                            map1(i+1,j)=flag;
-                        end
-                        if i+1<=max&&j-1>=min
-                            map1(i+1,j-1)=flag;
-                        end
-                        if i+1<=max&&j+1<=max
-                            map1(i+1,j+1)=flag;
-                        end                            
-                    end
-                end
-            end
-            map=map1;
-        end
-        function map=dilate2(~,map0)
-            map1=map0;
-            for i=1:size(map0,1)
-                for j=1:size(map0,2)
-                    if(map0(i,j)==1)
-                        flag=1;
-                        min=1;
-                        max=50;
-                        if j-1>=min
-                            map1(i,j-1)=flag;
-                        end
-                        if j+1<=max
-                            map1(i,j+1)=flag;
-                        end
-                        if i-1>=min
-                            map1(i-1,j)=flag;
-                        end
-                        if i+1<=max
-                            map1(i+1,j)=flag;
-                        end                           
-                    end
-                end
-            end
-            map=map1;
-        end
-        function map=dilate3(~,map0)
-            map1=map0;
-            for i=1:size(map0,1)
-                max=size(map0,1);
-                map1(max,i)=1;
-                map1(1,i)=1;
-                map1(i,max)=1;
-                map1(i,1)=1;
-                map1(max-1,i)=1;
-                map1(2,i)=1;
-                map1(i,max-1)=1;
-                map1(i,2)=1;
-            end
-            map=map1;
-        end
+
         function collide=collisionWithDilatedObstacles(self,agentCoords,agentID)
             %'Collision'
+            dilate2=utils('dilate2');
+            dilate3=utils('dilate3');
             agentCoords=self.clipCoord(agentCoords);
             obmap=self.map.occupyMap();
-            obmap=self.dilate2(obmap);
-            obmap=self.dilate2(obmap);
-            obmap=self.dilate2(obmap);
-            obmap=self.dilate3(obmap);
+            obmap=dilate2(obmap);
+            obmap=dilate2(obmap);
+            obmap=dilate2(obmap);
+            obmap=dilate3(obmap);
             len=size(agentCoords,2);
             collide=0;
             for i=1:len
@@ -414,6 +340,44 @@ classdef Env < handle
             for i=1:len
                 if obmap(scanCoords(2,i),scanCoords(1,i))==1
                     self.scanMap(scanCoords(2,i),scanCoords(1,i))=1;
+                end
+            end
+            
+            for i=2:self.obj_idx
+                maxScanX=max(scanCoords(2,:));
+                minScanX=min(scanCoords(2,:));
+                maxScanY=max(scanCoords(1,:));
+                minScanY=min(scanCoords(1,:));
+                
+                agentCoords=self.objs{i}.occupyMap();
+                agentCoords=self.clipCoord(agentCoords);
+                AgentXCenter=(max(agentCoords(2,:))+min(agentCoords(2,:)))/2;
+                AgentYCenter=(max(agentCoords(1,:))+min(agentCoords(1,:)))/2;
+                
+                agentXs=[min(agentCoords(2,:)) min(agentCoords(2,:)) max(agentCoords(2,:)) max(agentCoords(2,:))];
+                agentYs=[min(agentCoords(1,:)) max(agentCoords(1,:)) min(agentCoords(1,:)) max(agentCoords(1,:))];
+                
+                for s=1:1:4
+                    agentX=agentXs(s);
+                    agentY=agentYs(s);
+                    if agentX>=minScanX && agentX<=maxScanX && ...
+                            agentY>=minScanY &&  agentY<=maxScanY
+                        len=size(agentCoords,2);
+                        for j=1:len
+                            x=agentCoords(2,j);
+                            y=agentCoords(1,j);
+                            ix=find(scanCoords(2,:)==x);
+                            iy=find(scanCoords(1,:)==y);
+                            for k=1:length(ix)
+                                scanX=ix(k);
+                                if find(iy==scanX)
+                                    self.scanMap(x,y)=i;
+                                    break;
+                                end
+                            end
+                        end
+                        break;
+                    end
                 end
             end
             

@@ -1,5 +1,14 @@
 % functions for planar drawing
 function f=utils(refname)
+if strcmp(refname,'dilate3')
+    f=@dilate;
+end
+if strcmp(refname,'dilate2')
+    f=@dilate;
+end
+if strcmp(refname,'dilate')
+    f=@dilate;
+end
 if strcmp(refname,'drawCircles')
     f=@drawCircles;
 end
@@ -43,29 +52,29 @@ end
 end
 
 function p=abspath(file)
-    if ismac
-    	c='/';
-    elseif isunix
-    	c='/';
-    elseif ispc
-        c='\';
-    else
-        c='';
-        error('Platform not supported');
-    end
-    p=strcat(pwd,c,file);
+if ismac
+    c='/';
+elseif isunix
+    c='/';
+elseif ispc
+    c='\';
+else
+    c='';
+    error('Platform not supported');
+end
+p=strcat(pwd,c,file);
 end
 
 function proj=projVec(from,to)
-    proj=dot(from,to)*to/norm(to);
-    if(size(proj)==[1 2])
-        proj=proj';
-    end
+proj=dot(from,to)*to/norm(to);
+if(size(proj)==[1 2])
+    proj=proj';
+end
 end
 
 function proj=projOrthVec(from,to)
-    to=[-to(2) to(1)];
-    proj=projVec(from,to);
+to=[-to(2) to(1)];
+proj=projVec(from,to);
 end
 
 function drawArc(handle,center,radius,st_ang,end_ang) % radius-Arc Radius
@@ -74,7 +83,7 @@ circd = @(radius,deg_ang)  [radius*cosd(deg_ang);  radius*sind(deg_ang)];       
 N = 10;                                                         % Number Of Points In Complete Circle
 N=max(N,ceil((end_ang-st_ang)*180/pi/3.6))
 linspace(st_ang,end_ang,N)
-                                            
+
 xy_r = circr(radius,r_angl);                                    % Matrix (2xN) Of (x,y) Coordinates
 xy_r=xy_r+center;
 plot(handle,xy_r(1,:), xy_r(2,:), '-') ;
@@ -216,5 +225,84 @@ for n=1:N1
 end
 end
 
+function map=dilate(map0)
+map1=map0;
+for i=1:size(map0,1)
+    for j=1:size(map0,2)
+        if(map0(i,j)==1)
+            flag=1;
+            min=1;
+            max=50;
+            if j-1>=min
+                map1(i,j-1)=flag;
+            end
+            if j+1<=max
+                map1(i,j+1)=flag;
+            end
+            if i-1>=min
+                map1(i-1,j)=flag;
+            end
+            if i-1>=min&&j-1>=min
+                map1(i-1,j-1)=flag;
+            end
+            if i-1>=min&&j+1<=max
+                map1(i-1,j+1)=flag;
+            end
+            if i+1<=max
+                map1(i+1,j)=flag;
+            end
+            if i+1<=max&&j-1>=min
+                map1(i+1,j-1)=flag;
+            end
+            if i+1<=max&&j+1<=max
+                map1(i+1,j+1)=flag;
+            end
+        end
+    end
+end
+map=map1;
+end
+
+
+function map=dilate2(map0)
+map1=map0;
+for i=1:size(map0,1)
+    for j=1:size(map0,2)
+        if(map0(i,j)==1)
+            flag=1;
+            min=1;
+            max=50;
+            if j-1>=min
+                map1(i,j-1)=flag;
+            end
+            if j+1<=max
+                map1(i,j+1)=flag;
+            end
+            if i-1>=min
+                map1(i-1,j)=flag;
+            end
+            if i+1<=max
+                map1(i+1,j)=flag;
+            end
+        end
+    end
+end
+map=map1;
+end
+function map=dilate3(map0)
+map1=map0;
+for i=1:size(map0,1)
+    max=size(map0,1);
+    map1(max,i)=1;
+    map1(1,i)=1;
+    map1(i,max)=1;
+    map1(i,1)=1;
+    map1(max-1,i)=1;
+    map1(2,i)=1;
+    map1(i,max-1)=1;
+    map1(i,2)=1;
+end
+map=map1;
+end
 
 
