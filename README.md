@@ -14,6 +14,16 @@ Arena Challenge是一个由Matlab代码编写的仿真环境。主要要求挑�
 
 项目详细信息见[链接](https://gitee.com/coralab/ic-challenge/tree/master/Arena)
 
+### [Car Racing Challenge](https://gitee.com/coralab/ic-challenge/tree/master/Arena)简介
+Carracing是一个由Matlab代码编写的仿真环境。主要要求挑战者编写Matlab代码控制小车在环形跑道上，以最快最好的方式，从起点运行至终点。小车是一个比unicycle更复杂的系统动力系统（见下文解释），并装有“雷达”探测器，可探测前方障碍物情况。最终的成绩由小车到达终点的时间以及小车是否撞上障碍物等情况综合评估而得。
+
+挑战者提交其设计的控制策略，我们将测试控制策略在随机地图和不同配置下的得分情况，得到策略的最终得分。
+<div align="left">
+<img src=https://gitee.com/coralab/ic-challenge/raw/master/Carracing/pics/carracing_preview.jpg width=60%/>
+</div>
+
+项目详细信息见[链接](https://gitee.com/coralab/ic-challenge/tree/master/Carracing)
+
 ### [WaterTank Challenge](https://gitee.com/coralab/ic-challenge/tree/master/Watertank)简介
 WaterTank Challenge是一个由Matlab代码编写的仿真环境。主要要求挑战者编写Matlab代码控制水箱液位至目标液位。控制量为水箱进水阀门，控制量为正数.
 <div align="left">
