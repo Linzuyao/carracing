@@ -10,15 +10,15 @@ Carracing是一个由Matlab代码编写的仿真环境。主要要求挑战者�
 ## 1. 小车动力学模型
 小车的动力学模型借鉴了https://github.com/alexliniger/MPCC/tree/master中的模型。其动力学方程为
 <div align="left">
-<img src=https://gitee.com/coralab/ic-challenge/raw/master/Carracing/pics/Model.jpg width=70%/>
+<img src=https://gitee.com/coralab/ic-challenge/raw/master/Carracing/pics/Model.jpg width=100%/>
 </div>
 其中轮胎模型为
 <div align="left">
-<img src=https://gitee.com/coralab/ic-challenge/raw/master/Carracing/pics/TireModel.jpg width=70%/>
+<img src=https://gitee.com/coralab/ic-challenge/raw/master/Carracing/pics/TireModel.jpg width=100%/>
 </div>
 小车模型的状态和输入为
  <div align="left">
-<img src=https://gitee.com/coralab/ic-challenge/raw/master/Carracing/pics/state-input.jpg width=70%/>
+<img src=https://gitee.com/coralab/ic-challenge/raw/master/Carracing/pics/state-input.jpg width=100%/>
 </div>
 
 
